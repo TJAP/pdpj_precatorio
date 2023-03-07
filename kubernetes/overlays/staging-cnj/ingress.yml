@@ -1,0 +1,53 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: snmc
+  namespace: dcor-snmc
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+  labels:
+    app: snmc
+spec:
+  tls:
+    - hosts:
+        - snmc.stg.cloud.cnj.jus.br
+  rules:
+    - host: snmc.stg.cloud.cnj.jus.br
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: snmc-frontend
+                port:
+                  name: http
+...
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/affinity-mode: persistent
+  labels:
+    app: snmc
+  name: snmc-backend
+  namespace: dcor-snmc
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: snmc.stg.cloud.cnj.jus.br
+    http:
+      paths:
+      - backend:
+          service:
+            name: snmc-backend
+            port:
+              name: http
+        path: /api
+        pathType: Prefix
+  tls:
+  - hosts:
+    - snmc.stg.cloud.cnj.jus.br

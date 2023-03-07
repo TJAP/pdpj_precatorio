@@ -1,0 +1,168 @@
+<div class="container-fluid">
+
+  <div class="formulario-consulta" *ngIf="!processo">
+    <nz-card nzTitle="Consultar processo">
+
+      <nz-radio-group [(ngModel)]="filtro.tipo" nzButtonStyle="solid">
+        <label nz-radio-button nzValue="numero_unico">Nº processo</label>
+        <label nz-radio-button nzValue="nome_parte">Nome parte</label>
+      </nz-radio-group>
+
+      <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+        <input type="text" [(ngModel)]="textoBusca" nz-input placeholder="busca..." />
+      </nz-input-group>
+      <ng-template #suffixButton>
+        <button nz-button nzType="primary" nzSize="large" nzSearch (click)="pesquisarProcesso()">Buscar</button>
+      </ng-template>
+
+    </nz-card>
+
+  </div>
+
+  <div class="resultado-consulta" *ngIf="processos && !processo">
+    <nz-card nzTitle="Resultado da busca">
+
+      <nz-table #res [nzData]="processos">
+        <thead>
+          <tr>
+            <th>Número processo</th>
+            <th>Órgão julgador</th>
+            <th>Classe</th>
+            <th>Rito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of res.data">
+            <td>{{ data.numero }}</td>
+            <td>{{ data.orgao }}</td>
+            <td>{{ data.classe }}</td>
+            <td>{{ data.rito }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+
+  </div>
+
+
+  <div class="detalhe-consulta" *ngIf="processo">
+
+    <nz-collapse [nzBordered]="false">
+      <nz-collapse-panel
+        #p
+        *ngFor="let panel of panels; let isFirst = first"
+        [nzHeader]="panel.name"
+        [nzActive]="panel.active"
+        [ngStyle]="panel.customStyle"
+        [nzExpandedIcon]="!isFirst ? panel.icon || expandedIcon : undefined"
+      >
+        {{ panel.name }}
+          <div class="row" style="margin-top: 5px;">
+            <div id="maisDetalhes" class="col-sm-4 col-xs-12 mobile-open corpo-cabecalho">
+              <dl class="dl-horizontal">
+                <dt>Classe Judicial</dt>
+                <dd>{{ processo.classe }}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Assunto</dt>
+                <dd>{{ processo.assunto}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Jurisdição</dt>
+                <dd>{{ processo.comarca}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Autuação</dt>
+                <dd>Data</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Ultima distribuição</dt>
+                <dd>{{ processo.dt_distribuicao}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Valor da causa</dt>
+                <dd>{{ processo.valor}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Segredo de justiça</dt>
+                <dd>{{ processo.segredo ? 'SIM' : 'NÃO'}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Justiça gratuíta</dt>
+                <dd>SIM</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Tutela/liminar</dt>
+                <dd>NÃO</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Prioridade</dt>
+                <dd>NÃO</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Órgão Julgador</dt>
+                <dd>{{ processo.orgao}}</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Cargo judicial</dt>
+                <dd>Juizo titular</dd>
+              </dl>
+              <dl class="dl-horizontal">
+                <dt>Competência</dt>
+                <dd>Juizado especial cível</dd>
+              </dl>
+
+            </div>
+
+            <div class="col-sm-8 col-xs-12 mobile-open">
+              <div class="row">
+                <div class="col-6">
+                  <nz-list nzItemLayout="horizontal">
+                    <nz-list-header>
+                      <div style="margin-left: 12px; font-weight: 700;"><i class="fa fa-solid fa-circle"
+                      style="color: green;"></i> Polo ativo</div>
+                    </nz-list-header>
+
+                    <nz-list-item *ngFor="let ativo of poloAtivo">
+
+                      <nz-list-item-meta  nzDescription="AULO CAYO DE LACERDA MIRA - OAB AP923-A - CPF: 789.189.523-68 (ADVOGADO)">
+
+                      <nz-list-item-meta-title>
+                        {{ ativo.nome }}
+                      </nz-list-item-meta-title>
+
+                      </nz-list-item-meta>
+                    </nz-list-item>
+                    <nz-list-empty *ngIf="poloAtivo.length === 0"></nz-list-empty>
+
+                  </nz-list>
+                </div>
+                <div class="col-6">
+                  <nz-list nzItemLayout="horizontal">
+                    <nz-list-header>
+                      <div style="margin-left: 12px; font-weight: 700;"><i class="fa fa-solid fa-circle"
+                      style="color: green;"></i> Polo passivo</div>
+                    </nz-list-header>
+
+                    <nz-list-item *ngFor="let passivo of poloPassivo">
+
+                      <nz-list-item-meta  nzDescription="AULO CAYO DE LACERDA MIRA - OAB AP923-A - CPF: 789.189.523-68 (ADVOGADO)">
+
+                      <nz-list-item-meta-title>
+                        {{ passivo.nome }}
+                      </nz-list-item-meta-title>
+
+                      </nz-list-item-meta>
+                    </nz-list-item>
+                  </nz-list>
+                </div>
+
+              </div>
+            </div>
+          </div>
+      </nz-collapse-panel>
+    </nz-collapse>
+
+  </div>
+
+</div>

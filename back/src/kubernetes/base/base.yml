@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: precatorio
+  labels:
+    app: precatorio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: precatorio
+  template:
+    metadata:
+      labels:
+        app: precatorio
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: precatorio
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: precatorio
+        image: registry.cnj.jus.br/pdpj/precatorio:latest
+        imagePullPolicy: Always
+        env:
+        - name: TZ
+          value: America/Sao_Paulo
+        - name: EUREKA_INSTANCE_PREFERIPADDRESS
+          value: "true"
+        envFrom:
+        - secretRef:
+            name: precatorio-db-secret
+        - secretRef:
+            name: precatorio-flywayuser-db-secret
+        - secretRef:
+            name: precatorio-keycloak-secret
+        - secretRef:
+            name: precatorio-rabbitmq-secret
+        ports:
+        - containerPort: 8080
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: http
+          failureThreshold: 6
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: http
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: http
+          failureThreshold: 20
+          periodSeconds: 30
+          timeoutSeconds: 10
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "50m"
+          limits:
+            memory: "4Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: precatorio-config
+          mountPath: /opt/precatorio/config/
+          readOnly: true
+      imagePullSecrets:
+      - name: registry-cnj
+      volumes:
+      - name: precatorio-config
+        configMap:
+          name: precatorio-config
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: precatorio
+  labels:
+    app: precatorio
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: precatorio

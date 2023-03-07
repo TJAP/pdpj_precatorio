@@ -1,0 +1,103 @@
+.formulario-consulta .filtro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formulario-consulta .filtro mat-form-field {
+  width: 50%;
+}
+
+.formulario-consulta .botoes {
+  display: flex;
+  justify-content: center;
+}
+
+.formulario-consulta .mat-radio-button {
+  margin: 0 12px;
+}
+
+.detalhe-consulta .botoes {
+  justify-content: flex-start;
+}
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-cell:hover .mat-cell {
+  border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+  font-weight: bold;
+}
+
+.resultado-consulta {
+  margin-top: 5px;
+}
+
+.mat-header-cell {
+  font-size: 13px !important;
+}
+
+.mat-cell {
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.mat-expansion-panel-header {
+  height: 90px;
+}
+
+
+
+.corpo-cabecalho {
+  display: block;
+  max-height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+}
+
+.dl-horizontal dt {
+float: left;
+width: 160px;
+overflow: hidden;
+clear: left;
+text-align: right;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+dt {
+font-weight: 700;
+}
+
+.dl-horizontal dd {
+margin-left: 180px;
+}
+
+.mais-detalhes > dl > dt {
+padding: 5px 0px;
+}
+
+.mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+display: block!important;
+flex-grow: 1;
+margin-right: 16px;
+}
+
+.mat-horizontal-stepper-content form div {
+padding: 15px;
+text-align: left!important;
+}
+
+.container-fluid {
+  margin-bottom: 5px;
+}

@@ -1,0 +1,29 @@
+.ant-table-row td {
+  cursor: pointer!important;
+}
+.corpo-cabecalho {
+  display: block;
+  max-height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+}
+
+.dl-horizontal dt {
+float: left;
+width: 160px;
+overflow: hidden;
+clear: left;
+text-align: right;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+dt {
+font-weight: 700;
+}
+
+.dl-horizontal dd {
+margin-left: 180px;
+}
+
+

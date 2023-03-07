@@ -1,0 +1,192 @@
+<div class="container-fluid">
+
+  <div class="formulario-consulta" *ngIf="!processo">
+    <mat-card>
+      <mat-card-title>Consultar processo</mat-card-title>
+
+      <div class="filtro">
+        <label>Consultar por: </label>
+        <mat-radio-group [(ngModel)]="filtro.tipo">
+          <mat-radio-button value="numero_unico" checked>Nº Processo</mat-radio-button>
+          <mat-radio-button value="nome_parte">Nome da parte</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="filtro">
+        <mat-form-field appearance="outline">
+          <mat-label>Informe o filtro</mat-label>
+          <input matInput [(ngModel)]="textoBusca" type="text">
+        </mat-form-field>
+      </div>
+
+      <div class="botoes">
+        <button type="submit" mat-raised-button color="primary" (click)="pesquisarProcesso()"
+          [disabled]="">Pesquisar</button>
+        <button type="reset" mat-raised-button color="secondary" (click)="limpar()">Limpar</button>
+      </div>
+
+    </mat-card>
+  </div>
+
+  <div class="resultado-consulta" *ngIf="dataSource && !processo">
+    <mat-card>
+      <mat-card-title>Resultado da busca</mat-card-title>
+
+      <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="ex. orgao, parte, classe e etc..." #input>
+      </mat-form-field>
+
+      <table mat-table [dataSource]="dataSource" matSort class="demo-table">
+        <caption></caption>
+        <ng-container matColumnDef="processo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Número processo</th>
+          <td mat-cell *matCellDef="let elemento">{{elemento.numero}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lotacao">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Órgão Julgador</th>
+          <td mat-cell *matCellDef="let elemento">{{elemento.orgao}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="classe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Classe</th>
+          <td mat-cell *matCellDef="let elemento">{{elemento.classe}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rito">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Rito</th>
+          <td mat-cell *matCellDef="let elemento">{{elemento.rito}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row (click)="selecaoLinhaProcesso(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+          *matRowDef="let row; columns: columnsToDisplay;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Nenhum processo encontrado para a busca "{{input.value}}"</td>
+        </tr>
+      </table>
+      <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card>
+  </div>
+
+
+  <div class="detalhe-consulta" *ngIf="processo">
+
+    <mat-accordion #detalhe_processo class="example-headers-align">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span style="font-weight: 600;">{{processo.numero}}</span><br />
+            <span>{{processo.orgao}}</span><br />
+            <small>{{ processo.descricao_detalhe }}</small>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <div class="row" style="margin-top: 5px;">
+          <div id="maisDetalhes" class="col-sm-4 col-xs-12 mobile-open corpo-cabecalho">
+            <dl class="dl-horizontal">
+              <dt>Classe Judicial</dt>
+              <dd>{{ processo.classe }}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Assunto</dt>
+              <dd>{{ processo.assunto}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Jurisdição</dt>
+              <dd>{{ processo.comarca}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Autuação</dt>
+              <dd>Data</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Ultima distribuição</dt>
+              <dd>{{ processo.dt_distribuicao}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Valor da causa</dt>
+              <dd>{{ processo.valor}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Segredo de justiça</dt>
+              <dd>{{ processo.segredo ? 'SIM' : 'NÃO'}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Justiça gratuíta</dt>
+              <dd>SIM</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Tutela/liminar</dt>
+              <dd>NÃO</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Prioridade</dt>
+              <dd>NÃO</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Órgão Julgador</dt>
+              <dd>{{ processo.orgao}}</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Cargo judicial</dt>
+              <dd>Juizo titular</dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>Competência</dt>
+              <dd>Juizado especial cível</dd>
+            </dl>
+
+          </div>
+
+          <div class="col-sm-8 col-xs-12 mobile-open">
+            <div class="row">
+              <div class="col-6">
+                <mat-list>
+                  <div style="margin-left: 12px; font-weight: 700;"><i class="fa fa-solid fa-circle"
+                      style="color: green;"></i> Polo ativo</div>
+                  <mat-list-item *ngFor="let ativo of poloAtivo">
+                    <div mat-line>{{ativo.nome}}</div>
+                    <div mat-line style="color: #777; margin-left: 10px;">
+                      <i class="fa fa-sharp fa-solid fa-diagram-nested"></i>
+                      <i class="fa fa-user-tie"></i>
+                      AULO CAYO DE LACERDA MIRA - OAB AP923-A - CPF: 789.189.523-68 (ADVOGADO)
+                    </div>
+                    <mat-divider></mat-divider>
+                  </mat-list-item>
+
+                </mat-list>
+              </div>
+              <div class="col-6">
+                <mat-list>
+                  <div style="margin-left: 12px; font-weight: 700;"><i class="fa fa-solid fa-circle"
+                      style="color: orange;"></i> Polo passivo</div>
+                  <mat-list-item *ngFor="let passivo of poloPassivo">
+                    <div mat-line>{{passivo.nome}}</div>
+                    <div mat-line style="color: #777; margin-left: 10px;">
+                      <i class="fa fa-sharp fa-solid fa-diagram-nested"></i>
+                      <i class="fa fa-user-tie"></i> AULO CAYO DE LACERDA MIRA - OAB AP923-A - CPF: 789.189.523-68
+                      (ADVOGADO)
+                    </div>
+                    <mat-divider></mat-divider>
+                  </mat-list-item>
+
+                </mat-list>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="botoes" style="margin-top: 10px;">
+          <button mat-raised-button color="primary" style="margin-right: 5px;" (click)="limpar()">Nova pesquisa</button>
+          <button mat-raised-button (click)="accordion.closeAll()">Fechar detalhe</button>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </div>
+
+</div>

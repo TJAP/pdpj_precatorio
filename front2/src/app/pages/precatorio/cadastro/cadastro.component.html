@@ -1,0 +1,59 @@
+<div class="inner-content" style="margin-bottom: 10px;">
+  <app-selecao-processo (onClick)="selecaoProcesso($event)" (onClean)="limparProcesso()"></app-selecao-processo>
+</div>
+
+<div class="card-container" *ngIf="processo">
+  <nz-tabset nzType="card">
+
+    <nz-tab [nzTitle]="precatrorio">
+      <ng-template #precatrorio>
+        <span nz-icon nzType="container"></span>
+        Dados {{ tipoPrecatorio }}
+      </ng-template>
+
+
+    </nz-tab>
+
+    <nz-tab [nzTitle]="processo">
+      <ng-template #processo>
+        <span nz-icon nzType="container"></span>
+        Processo
+      </ng-template>
+      Processo
+    </nz-tab>
+
+    <nz-tab [nzTitle]="credor">
+      <ng-template #credor>
+        <span nz-icon nzType="user"></span>
+        Credor
+      </ng-template>
+      Credor
+    </nz-tab>
+
+    <nz-tab [nzTitle]="credito">
+      <ng-template #credito>
+        <span nz-icon nzType="calculator"></span>
+        Crédido
+      </ng-template>
+      Crédito
+    </nz-tab>
+
+    <nz-tab [nzTitle]="pagamentos">
+      <ng-template #pagamentos>
+        <span nz-icon nzType="dollar"></span>
+        Pagamentos
+      </ng-template>
+      Pagamentos
+    </nz-tab>
+
+    <nz-tab [nzTitle]="alteracao">
+      <ng-template #alteracao>
+        <span nz-icon nzType="sync"></span>
+        Alterações
+      </ng-template>
+      Alterações
+    </nz-tab>
+
+  </nz-tabset>
+
+</div>

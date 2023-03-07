@@ -1,0 +1,95 @@
+<nz-back-top></nz-back-top>
+<app-spinner></app-spinner>
+<nz-layout class="app-layout">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="/" target="_blank">
+        <img src="./../assets/images/logo-mini-pdpj-branco.png" alt="logo" />
+        <h1>PDPJ - Precatório</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+
+      <li nz-menu-item nz-tooltip nzMatchRouter>
+        <span nz-icon nzType="dashboard"></span>
+        <span><a routerLink="/home">Dashboard</a></span>
+
+      </li>
+
+      <li nz-menu-item nz-tooltip nzMatchRouter>
+        <span nz-icon nzType="form"></span>
+        <span><a routerLink="precatorio/cadastro">Cadastro</a></span>
+      </li>
+
+      <li nz-menu-item nz-tooltip nzMatchRouter>
+        <span nz-icon nzType="unordered-list"></span>
+        <span><a routerLink="precatorio/lista">Lista</a></span>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Relatórios" nzIcon="file-text">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <span nz-icon nzType="file"></span>
+            <span><a routerLink="precatorio/relatorio">Lista</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <span nz-icon nzType="file"></span>
+            <span>xxx</span>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <span nz-icon nzType="file"></span>
+            <span>xxx</span>
+          </li>
+
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <div nz-row>
+          <div nz-col nzFlex="auto">
+            <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+              <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+            </span>
+            <img src="./../assets/images/uikit-logotipo.png" alt="logo" height="50" style="margin-top: -10px;"
+              class="visivel-mobile">
+          </div>
+
+          <div nz-col nzFlex="100px" style="text-align: right; margin-right: 25px;">
+            <nz-avatar [nzSize]="35" nzIcon="mail" [nzShape]="'square'" style="margin-right: 5px;"></nz-avatar>
+            <nz-avatar nz-popover nzPopoverTitle="Pedro Homobono Machado Junior" [nzPopoverContent]="detalheUsuario"
+              nzPopoverTrigger="click" nzPopoverPlacement="bottomRight" [nzSize]="35" nzIcon="user" [nzShape]="'square'"
+              style="background-color:#1890ff;"></nz-avatar>
+            <ng-template #detalheUsuario>
+              <nz-descriptions nzTitle="User Info">
+                <nz-descriptions-item nzTitle="UserName">Zhou Maomao</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Telephone">18100000000</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Live">Hangzhou, Zhejiang</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Remark">Empty</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Address">
+                  No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+                </nz-descriptions-item>
+              </nz-descriptions>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb [nzAutoGenerate]="true" style="margin-bottom: 5px;">
+        <nz-breadcrumb-item>
+          <a routerLink="/home"><span nz-icon nzType="home"></span></a>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+
+
+      <!--div class="inner-content"-->
+      <router-outlet></router-outlet>
+      <!--/div-->
+
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,66 @@
+<uikit-layout
+  [showNotifications]="false"
+  [showUserInfo]="true"
+  [showIa]="false"
+  [showSystemInfo]="true">
+
+  <div layout-header-systeminfo>
+    Precatorio
+  </div>
+
+  <div layout-header-userinfo>
+
+    <!-- Componentes e Elementos para o conteúdo do userinfo -->
+  </div>
+
+  <div layout-nav-menu>
+    <!-- Itens para o menu (uikit-menu-item) -->
+    <uikit-menu>
+      <uikit-menu-item title="Home" icon="fa-lg fas fa-home" [link]="['/home']"></uikit-menu-item>
+      <uikit-menu-item title="Consulta" icon="fa-lg fas fa-chart-line" [link]="['/consulta']"></uikit-menu-item>
+
+      <uikit-menu-item title="Cadastro" icon="fa-lg fas fa-file">
+        <uikit-menu-item title="Ofício requisitório" icon="fa-lg fas fa-balance-book" [link]="['/cadastro/novo']"></uikit-menu-item>
+        <uikit-menu-item title="RPV" icon="fa-lg fas fa-address-book" [link]="['/rpv']"></uikit-menu-item>
+      </uikit-menu-item>
+
+      <uikit-menu-item title="RPV" icon="fa-lg fas fa-cogs">
+        <uikit-menu-item title="Normas" icon="fa-lg fas fa-book-open" [link]="['/norma']"></uikit-menu-item>
+        <uikit-menu-item title="Referenciais" icon="fa-lg fas fa-book" [link]="['/referencial']"></uikit-menu-item>
+        <uikit-menu-item title="Itens de Conformidade" icon="fa-lg fas fa-gavel" [link]="['/item-de-conformidade']"></uikit-menu-item>
+      </uikit-menu-item>
+
+      <uikit-menu-item title="Relatórios" icon="fa-lg fas fa-binoculars">
+        <!-- <uikit-menu-item title="Cumprimento" icon="fa-lg fas fa-hand-point-left" [link]="['/relatorio/cumprimento']"></uikit-menu-item> -->
+        <uikit-menu-item title="Boas práticas" icon="fa-lg fas fa-thumbs-up" [link]="['/relatorio/boas-praticas']"></uikit-menu-item>
+        <uikit-menu-item title="Nível de capacidade" icon="fa-lg fas fa-weight" [link]="['/relatorio/nivel-capacidade']"></uikit-menu-item>
+        <uikit-menu-item title="Plano de trabalho" icon="fa-lg fas fa-tools" [link]="['/relatorio/plano-de-trabalho']"></uikit-menu-item>
+        <uikit-menu-item title="Evidências" icon="fa-lg fas fa-sticky-note" [link]="['/relatorio/evidencias']"></uikit-menu-item>
+        <uikit-menu-item title="Evidências a conferir" icon="fa-lg fas fa-edit" [link]="['/relatorio/evidencias-a-conferir']"></uikit-menu-item>
+        <uikit-menu-item title="Evidências não auditadas" icon="fa-lg fas fa-business-time" [link]="['/relatorio/evidencias-nao-auditadas']"></uikit-menu-item>
+        <uikit-menu-item title="Auditorias" icon="fa-lg fas fa-people-arrows" [link]="['/relatorio/auditorias']"></uikit-menu-item>
+        <uikit-menu-item title="Auditorias aprovadas" icon="fa-lg fas fa-user-check" [link]="['/relatorio/auditorias-aprovadas']"></uikit-menu-item>
+        <uikit-menu-item title="Auditorias não aprovadas" icon="fa-lg fas fa-user-alt-slash" [link]="['/relatorio/auditorias-nao-aprovadas']"></uikit-menu-item>
+      </uikit-menu-item>
+
+    </uikit-menu>
+
+  </div>
+
+  <div layout-nav-menu-extras>
+    <!-- Elementos adicionais para o menu -->
+  </div>
+
+  <div layout-header-notifications>
+    <!-- Componentes que representam uma notificação (uikit-notificacao) -->
+    <!-- <uikit-notificacao nome="Nome1" descricao="Descricao1" icone="fas fa-info-circle" [read]="true"></uikit-notificacao> -->
+  </div>
+
+  <div layout-header-systeminfo>
+    v1.0
+    <!-- Qualquer elemento para representar uma versão (changelog) -->
+  </div>
+
+  <router-outlet></router-outlet>
+
+</uikit-layout>

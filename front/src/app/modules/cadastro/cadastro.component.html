@@ -1,0 +1,60 @@
+<app-consulta-processo (onClick)="selecaoProcesso($event)" (onClean)="limparProcesso()">
+
+</app-consulta-processo>
+
+<mat-horizontal-stepper linear #stepper *ngIf="processo">
+  <mat-step [stepControl]="precatorioFormGroup" [editable]="isEditable" state="file">
+    <form [formGroup]="precatorioFormGroup" style="text-align: left;">
+      <ng-template matStepLabel>Dados precatório</ng-template>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Input</mat-label>
+        <input matInput>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select>
+          <mat-option value="one">First option</mat-option>
+          <mat-option value="two">Second option</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+
+      <div>
+        <button mat-button matStepperNext>próximo</button>
+      </div>
+
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="credorFormGroup" [editable]="isEditable" state="user">
+    <ng-template matStepLabel>Credor</ng-template>
+    teste
+    <div>
+      <button mat-button matStepperPrevious>anterior</button>
+      <button mat-button matStepperNext>próximo</button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="devedorFormGroup" [editable]="isEditable" state="user">
+    <ng-template matStepLabel>Devedor</ng-template>
+    teste
+    <div>
+      <button mat-button matStepperPrevious>anterior</button>
+      <button mat-button matStepperNext>próximo</button>
+    </div>
+  </mat-step>
+
+  <mat-step [stepControl]="magistradoFormGroup" [editable]="isEditable" state="user">
+    <ng-template matStepLabel>Finalizar</ng-template>
+    <p>...</p>
+    <div>
+      <button mat-button matStepperPrevious>anterior</button>
+      <button mat-button (click)="stepper.reset()">Limpar</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

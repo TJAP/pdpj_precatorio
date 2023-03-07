@@ -1,0 +1,77 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snmc-frontend
+  labels:
+    app: snmc
+    component: frontend
+spec:
+  ports:
+    - name: http
+      port: 80
+  selector:
+    app: snmc
+    component: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snmc-frontend
+  labels:
+    app: snmc
+    component: frontend
+spec:
+  selector:
+    matchLabels:
+      app: snmc
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: snmc
+        component: frontend
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 10
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: snmc
+                    component: frontend
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: snmc-frontend
+          image: registry.cnj.jus.br/snmc/frontend:latest
+          imagePullPolicy: Always
+ #         env:
+ #           - name: ENDERECO_API
+ #             value: snmc-gateway:8080
+ #           - name: TZ
+ #             value: America/Sao_Paulo
+          ports:
+            - containerPort: 80
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /index.html
+              port: http
+            failureThreshold: 6
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: http
+            failureThreshold: 3
+            periodSeconds: 30
+            timeoutSeconds: 10
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "10m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"

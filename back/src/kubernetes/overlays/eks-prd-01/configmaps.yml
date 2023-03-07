@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: precatorio-config
+  labels:
+    app: precatorio
+data:
+  application.yaml: |
+    # configurações do servidor
+    server:
+      servlet:
+        context-path: /
+      port: 8080
+
+    # configurações do serviço
+    spring:
+      application:
+        name: precatorio
+      aop:
+        auto: false
+      profiles:
+        active: sso-security
+      rabbitmq:
+        host: mq.prd.cnj.cloud
+        virtual-host: pje-prd
+        template:
+          exchange: pje.exchange
+        port: 5672
+        connection-timeout: 1000ms
+      jackson:
+        time-zone: Brazil/East
+        locale: pt-BR
+      datasource:
+        url: jdbc:postgresql://postgres.comum/pdpj_precatorio
+      jpa:
+        properties:
+          hibernate:
+            default_schema: precatorio
+          org:
+            hibernate:
+              envers:
+                default_schema: audit
+      flyway:
+        url: jdbc:postgresql://postgres.comum/pdpj_precatorio
+        schemas: precatorio
+        enabled: true
+      cache:
+        type: redis
+      redis:
+        host: redis.comum
+        port: 6379
+
+    pdpj:
+      precatorio: precatorio
+      gatewayUrl: https://gateway.cloud.pje.jus.br
+      nomeServico: Exemplo
+      descricao: Aplicação de Exemplo
+      iconePequenoUrl: /assets/images/icone_pequeno.jpeg
+      iconeGrandeUrl: /assets/images/icone_grande.jpeg
+      # frontendUrl: https://precatorio.pdpj.jus.br # opcional
+      swaggerUrl: https://gateway.cloud.pje.jus.br/precatorio/swagger-ui.html
+
+    # configurações do cliente para keycloak
+    keycloak:
+      auth-server-url: https://sso.cloud.pje.jus.br/auth
+      realm: pje
+      resource: precatorio
+      bearer-only: true
+      principal-attribute: preferred_username
+      cors: true
+      ssl-required: none
+
+    # configurações da instancia no service discovery
+    eureka:
+      client:
+        serviceUrl:
+          defaultZone: https://discovery.prd.cnj.cloud/eureka
+        enabled: true
+      instance:
+        healthCheckUrlPath: /actuator/health
+        statusPageUrlPath: /actuator/info
+        metadataMap:
+          pdpj: true # <- para ativar na marketplace
+        homePageUrl: https://precatorio.pdpj.jus.br # <- url-base na marketplace
+
+    # configurações do actuator
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,info
+      endpoint:
+        health:
+          show-details: ALWAYS
+
+    # opções de log
+    logging:
+      level:
+        br.jus.pdpj: INFO
+
+    # opções de auditoria de endpoint
+    auditoria:
+      naoLogar: actuator,swagger-ui.html,configuration,webjars,v2/api-docs,swagger-resources,api/v1/publico

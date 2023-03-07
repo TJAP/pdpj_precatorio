@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snmc-url-config
+  namespace: dcor-snmc
+  labels:
+    app: snmc
+data:
+  SNMC_HOST: 'snmc.stg.cloud.cnj.jus.br'
+...

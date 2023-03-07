@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snmc-backend
+  labels:
+    app: snmc
+    component: backend
+spec:
+  ports:
+    - name: http
+      port: 8080
+  selector:
+    app: snmc
+    component: backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snmc-backend
+  labels:
+    app: snmc
+    component: backend
+spec:
+  selector:
+    matchLabels:
+      app: snmc
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: snmc
+        component: backend
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 10
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: snmc
+                    component: backend
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: snmc-backend
+          image: registry.cnj.jus.br/snmc/backend:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: snmc-secret
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "50m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"

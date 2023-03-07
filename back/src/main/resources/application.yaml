@@ -1,0 +1,123 @@
+# configurações do servidor
+server: 
+  servlet:
+    context-path: ${CONTEXT_PATH:/} 
+  port: ${SERVER_PORT:8081}
+
+# configurações do serviço
+spring:
+  application:
+    name: ${APP_NAME:precatorio}
+  aop:
+    auto: false
+  profiles:
+    active: sso-security
+  rabbitmq:
+    host: localhost
+    username: ${RABBIT_USERNAME:pdpj}
+    password: ${RABBIT_PASSWORD:pdpj}
+    virtual-host: ${RABBIT_VHOST:pdpj-dev}
+    template:
+      exchange: ${RABBIT_EXCHANGE:pdpj.exchange}
+    port: ${RABBIT_PORT:5672}
+    connection-timeout: 1000ms
+  jackson:
+    time-zone: Brazil/East
+    locale: pt-BR
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: precatorio
+    password: precatorio
+  jpa:
+    properties:
+      hibernate:
+        default_schema: precatorio
+      org:
+        hibernate:
+          envers:
+            default_schema: audit
+  flyway:
+    url: jdbc:postgresql://localhost:5432/postgres
+    schemas: precatorio
+    user: precatorio
+    password: precatorio
+    enabled: true
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
+
+pdpj:
+  appName: ${APP_NAME:precatorio}
+  gatewayUrl: https://gateway.cloud.pje.jus.br
+  #http://localhost:8180
+  nomeServico: Precatorio
+  descricao: Aplicação de gerenciamento de precatórios
+  iconePequenoUrl: /assets/images/icone_pequeno.jpeg
+  iconeGrandeUrl: /assets/images/icone_grande.jpeg
+  frontendUrl: http://localhost:4200
+  swaggerUrl: https://localhost:8180/precatorio/swagger-ui.html
+  documentacaoUsuarioUrl: 
+  documentacaoTecnicaUrl:
+
+# configurações do cliente para keycloak
+keycloak:
+  auth-server-url: ${SSO_AUTH_SERVER:http://localhost:8080/auth}
+  realm: ${SSO_REALM:pje}
+  resource: ${SSO_RESOURCE:precatorio}
+  bearer-only: true
+  principal-attribute: preferred_username
+  cors: true
+  ssl-required: none
+  #credentials:
+  #  secret: ${SSO_SECRET}
+
+  # Security constraints
+  # permite acesso a todos os endpoints da aplicação
+  #securityConstraints[0].securityCollections[0].patterns[0]: /*
+
+  # Mapeia o endpoint a ser protegido
+  #securityConstraints[1].authRoles[0]: "*" # esta linha garante que um usuário deve estar autenticado
+  #securityConstraints[1].securityCollections[0].name: user-info-resource
+  #securityConstraints[1].securityCollections[0].patterns[0]: /api/v1/users/me
+
+  # Policy enforcer
+  # Garantirá a execução das políticas definidas para esse recurso no keycloak
+  #policy-enforcer-config.paths[0].path: /api/v1/users/me
+  #policy-enforcer-config.paths[0].methods[0].method: GET
+  #policy-enforcer-config.paths[0].methods[0].scopes[0]: view-user-info
+
+  # Desabilita a aplicação das políticas para os demais endpoints
+  #policy-enforcer-config.paths[1].path: /*
+  #policy-enforcer-config.paths[1].enforcement-mode: DISABLED
+
+# configurações da instancia no service discovery    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_DEFAULT_ZONE:http://localhost:8761/eureka}
+    enabled: ${EUREKA_REGISTER_ENABLE:true}
+  instance:
+    healthCheckUrlPath: /actuator/health
+    statusPageUrlPath: /actuator/info
+    metadataMap:
+      pdpj: true # <- para ativar na marketplace
+    homePageUrl: http://localhost:4200 # <- url-base na marketplace (presume um frontend web em Angular)
+
+# configurações do actuator    
+management:
+  endpoints:
+    web.exposure.include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS 
+      
+# opções de log
+logging:
+  level:
+    br.jus.pdpj: DEBUG
+
+# opções de auditoria de endpoint
+auditoria:
+  naoLogar: actuator,swagger-ui.html,configuration,webjars,v2/api-docs,swagger-resources,api/v1/publico

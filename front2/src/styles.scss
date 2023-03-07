@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+.ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-extra {
+  float: left;
+}
+
+.ant-list-vertical .ant-list-item-meta-title {
+    margin-bottom: 5px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 13px;
+    line-height: 10px;
+}
+
+.ant-list-item-meta-description {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 11px;
+  line-height: 18px;
+  margin-left: 10px;
+}
+
+.erro-aviso {
+  background-color: #F8D7DA;
+  color: #932029;
+}
+.sucesso-aviso{
+  background-color: #D1E7DD;
+  color: #0F5132;
+}
+.ant-tabs-nav .ant-tabs-tab .anticon {
+  margin-right: 5px;
+}
+.ant-progress {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.ant-form-item-label {
+  display: inline-block;
+  flex-grow: 0;
+  overflow: visible;
+  white-space: nowrap;
+  text-align: right;
+  vertical-align: middle;
+}
+.ant-menu a {
+  color: #f1f1f1;
+}
+.ant-menu a:hover {
+  color: #fff;
+}
+
+.ant-menu a:active {
+  color: #f1f1f1;
+}
